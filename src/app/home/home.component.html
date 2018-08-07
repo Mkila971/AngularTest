@@ -1,0 +1,42 @@
+<p>
+ Bienvenue dans ma todoList
+</p>
+
+<input type="text" #newTodo/>
+<button (click)="addTodo(newTodo.value); newTodo.value = ''; ">Ajouter</button> 
+<table>
+  <tr>
+    <th>Chose</th>
+    <th>Priorité</th>
+    <th>Fait</th>
+    <th>Action</th>
+  </tr>
+  <tr *ngFor="let todo of todos">
+      <td>{{todo.label}}</td>
+      <td>{{todo.priority}}</td>
+      <td>{{todo.done}}</td>
+      <td>
+        <button (click)="delete(todo);">
+          supprimer
+        </button>
+
+        <button (click)="changeStatus(todo);">
+            Fait
+        </button>
+
+        </td>
+  </tr>
+</table>
+
+<div>
+  <label>Liste des personnes en ligne</label>
+  <ul *ngFor="let personne of personnes">
+    <li>{{personne.nom}}</li>
+    <li>EnLigne : {{personne.enLigne}}</li>
+  </ul>
+</div>
+
+<cb-login></cb-login>
+
+
+

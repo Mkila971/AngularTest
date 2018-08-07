@@ -1,16 +1,56 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {RouterModule,Routes} from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MainMenuComponent } from './main-menu/main-menu.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import { HomeComponent } from './home/home.component';
+import { CarteComponent } from './carte/carte.component';
+import { ContactComponent } from './contact/contact.component';
+import { ReserveComponent } from './reserve/reserve.component';
+import { LoginComponent } from './login/login.component';
+import { AdminComponent } from './admin/admin.component';
+
+import{ EnregistrementService } from './enregistrement.service';
+import{ AuthService } from './auth.service';
+
+import {AuthGuard} from './auth.guard'
+
+ const routes : Routes = [
+   {path: '', component: HomeComponent},
+   {path: 'carte', component: CarteComponent},
+   {path: 'contact', component: ContactComponent},
+   {path: 'reserve', component: ReserveComponent},
+   {path: 'login', component: LoginComponent},
+   {path: 'admin', component: AdminComponent,canActivate:[AuthGuard]},
+ ];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MainMenuComponent,
+    HomeComponent,
+    CarteComponent,
+    ContactComponent,
+    ReserveComponent,
+    LoginComponent,
+    AdminComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [EnregistrementService,AuthService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
