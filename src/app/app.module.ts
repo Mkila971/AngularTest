@@ -1,6 +1,9 @@
+import{environment} from './../environments/environment'; 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {RouterModule,Routes} from '@angular/router';
+import {AngularFireModule} from 'angularfire2';
+import{AngularFireDatabaseModule} from'angularfire2/database';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -48,7 +51,9 @@ import {AuthGuard} from './auth.guard'
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule
   ],
   providers: [EnregistrementService,AuthService,AuthGuard],
   bootstrap: [AppComponent]

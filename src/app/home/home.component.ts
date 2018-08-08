@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EnregistrementService } from '../enregistrement.service';
+import {AngularFireDatabase,AngularFireList} from'angularfire2/database';
+
+import {Todo} from './../model/todo.model';
 
 @Component({
   selector: 'cb-home',
@@ -8,49 +11,44 @@ import { EnregistrementService } from '../enregistrement.service';
 })
 export class HomeComponent implements OnInit {
 
-  todos =[ 
-    {
-      label:'Lait',
-      done:false, 
-      priority:3
-    },
-    {
-      label:'Fromage',
-      done:false, 
-      priority:1
-    },
-    {
-      label:'Pain',
-      done:false, 
-      priority:5
-    }
-  ];
-
+  todosFirebase : AngularFireList<any>;
+  todos : Todo[];
   personnes = [];
 
-  constructor(private service: EnregistrementService) { 
-    
+  constructor(private service: EnregistrementService,private db:AngularFireDatabase) { 
+      this.todosFirebase = db.list('/Todos');
+
   }
   
   ngOnInit() {
+    var x = this.todosFirebase.snapshotChanges().subscribe(items => {
+      this.todos = [];
+      items.forEach(item => {
+      var todo = item.payload.toJSON();
+      todo["$key"] = item.key;
+      this.todos.push(todo as Todo);
+      });
+
+    });
     this.getPersonnes();
   }
 
   addTodo(newTodoLabel:string):void{
-    var newTodo = {
+    this.todosFirebase.push({
       label:newTodoLabel,
       done:false, 
       priority:1
-    } 
-    this.todos.push(newTodo);
+    } );
   }
 
   delete(todo): void{
-    this.todos = this.todos.filter(t => t.label !== todo.label );
+    this.todosFirebase.remove(todo.$key);
   }
 
   changeStatus(todo): void{
-    this.todos.find(t=>t.label === todo.label).done = true;
+    this.todosFirebase.update(todo.$key,{
+      done : true
+    });
   }
 
   getPersonnes(){
