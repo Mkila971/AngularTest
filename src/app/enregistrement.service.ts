@@ -13,15 +13,15 @@ export class EnregistrementService {
       enLigne:false
       },
       {nom:'Julie',
-      enLigne:false
+      enLigne:true
       },
-      {nom:'Max',
+      {nom:'Max mure',
       enLigne:false
       },
       {nom:'Manon',
       enLigne:false
       },
-      {nom:'Mika',
+      {nom:'Mika gros bite',
       enLigne:false
       },
     ];
