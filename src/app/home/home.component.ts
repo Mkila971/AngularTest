@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EnregistrementService } from '../enregistrement.service';
 import {AngularFireDatabase,AngularFireList} from'angularfire2/database';
+import { AuthService } from '../auth.service';
 
 import {Todo} from './../model/todo.model';
 
@@ -15,7 +16,7 @@ export class HomeComponent implements OnInit {
   todos : Todo[];
   personnes = [];
 
-  constructor(private service: EnregistrementService,private db:AngularFireDatabase) { 
+  constructor(private service: EnregistrementService,private db:AngularFireDatabase,private authService:AuthService,) { 
       this.todosFirebase = db.list('/Todos');
 
   }
@@ -55,4 +56,7 @@ export class HomeComponent implements OnInit {
     this.personnes = this.service.getDataPersonnesMock();
   }
 
+  logout(){
+    this.authService.logout();
+  }
 }

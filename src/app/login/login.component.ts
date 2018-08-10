@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -8,18 +9,23 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService:AuthService) { }
+  user = {
+    email: '',
+    password: ''
+ };
+  constructor(private authService:AuthService,private router: Router) { }
 
   ngOnInit() {
   }
-
-  loginUser(event){
-    event.preventDefault();
-    const target = event.target;
-    const login = target.querySelector('#login').value;
-    const password = target.querySelector('#password').value;
-    this.authService.getUserDetails(login,password);
+  signInWithEmail() {
+    this.authService.signInRegular(this.user.email, this.user.password)
+       .then((res) => {
+          console.log(res);
     
+          this.router.navigate(['/liste']);
+       })
+       .catch((err) => console.log('error: ' + err));
   }
+ 
 
 }
